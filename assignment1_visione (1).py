@@ -149,63 +149,7 @@ window.minsize(width, height)
 window.title("Visualizzatore immagine prospettica")
 window.geometry('+3+3') 
 
-
-# Funzioni per aggiornare Theta, Phi e FOV quando gli slider vengono mossi
-def update_theta(value):
-    global theta
-    theta = int(float(value))
-    update_image()
-
-def update_phi(value):
-    global phi
-    phi = int(float(value))
-    update_image()
-
-def update_fov(value):
-    global fov
-    fov = int(float(value))
-    update_image()
-
-#Frame contenitore dei tre elementi della finestra (informazioni, immagine e input)
-frm = ttk.Frame(window)
-frm.pack(expand=True)  # expand=True permette a frm di espandersi al centro della finestra
-
 style = ttk.Style()
-
-# Crea un frame per contenere gli slider
-slider_frame = ttk.Frame(window)
-slider_frame.pack(fill='both', expand=True, padx=10, pady=10)
-
-# Crea un'etichetta e uno slider per Theta
-theta_label = ttk.Label(slider_frame, text="Dx e Sx (Theta):", anchor='w')
-theta_label.grid(row=0, column=0, sticky='nsew')
-theta_slider = ttk.Scale(slider_frame, from_=-180, to=180, length=400, orient='horizontal', command=update_theta)
-theta_slider.set(theta)  # Imposta il valore iniziale
-theta_slider.grid(row=1, column=0, sticky='nsew')
-
-# Crea un'etichetta e uno slider per Phi
-phi_label = ttk.Label(slider_frame, text="Su e Giù (Phi):", anchor='w')
-phi_label.grid(row=2, column=0, sticky='nsew')
-phi_slider = ttk.Scale(slider_frame, from_=-90, to=90, length=400, orient='horizontal', command=update_phi)
-phi_slider.set(phi)  # Imposta il valore iniziale
-phi_slider.grid(row=3, column=0, sticky='nsew')
-
-# Crea un'etichetta e uno slider per FOV
-fov_label = ttk.Label(slider_frame, text="Zoom (FOV):", anchor='w')
-fov_label.grid(row=4, column=0, sticky='nsew')
-fov_slider = ttk.Scale(slider_frame, from_=5, to=90, length=400, orient='horizontal', command=update_fov)
-fov_slider.set(fov)  # Imposta il valore iniziale
-fov_slider.grid(row=5, column=0, sticky='nsew')
-
-# Imposta le opzioni di espansione della griglia
-slider_frame.grid_rowconfigure(0, weight=1)
-slider_frame.grid_rowconfigure(1, weight=1)
-slider_frame.grid_rowconfigure(2, weight=1)
-slider_frame.grid_rowconfigure(3, weight=1)
-slider_frame.grid_rowconfigure(4, weight=1)
-slider_frame.grid_rowconfigure(5, weight=1)
-slider_frame.grid_columnconfigure(0, weight=1)
-
 
 # Definisci il tema per i pulsanti
 style.configure("TButton",
@@ -226,6 +170,26 @@ style.configure("TFrame",
                 foreground="black",
                 background="white")
 
+
+# Funzioni per aggiornare Theta, Phi e FOV quando gli slider vengono mossi
+def update_theta(value):
+    global theta
+    theta = int(float(value))
+    update_image()
+
+def update_phi(value):
+    global phi
+    phi = int(float(value))
+    update_image()
+
+def update_fov(value):
+    global fov
+    fov = int(float(value))
+    update_image()
+
+#Frame contenitore dei tre elementi della finestra (informazioni, immagine e input)
+frm = ttk.Frame(window)
+frm.pack(expand=True)  # expand=True permette a frm di espandersi al centro della finestra
 
 #Frame di informazioni contenente le coordinate attuali dall'img equirettangolare e le istruzioni per l'uso
 info_frame = ttk.Frame(frm)
@@ -297,9 +261,47 @@ def change_theme():
 
 # Crea un pulsante per cambiare il tema
 theme_button = tk.Button(inputs_frame, text="Cambia Tema", command=change_theme, fg='black', bg='white', activebackground='red' )#colore attivazione pulsante tipo hover quando fai il click nelle pagine
-
 theme_button.grid(column=8, row=0)
 
+
+# Estrai il frame equirettangolare
+equirectangular = extract_frame_equirectangular(video_paths.get(), frame_number)
+update_image() #Per mostrare l'immagine iniziale predefinita dal setup iniziale
+update_status_label() # Per mostrare i valori iniziali di theta, phi e fov
+
+# Crea un frame per contenere gli slider
+slider_frame = ttk.Frame(window)
+slider_frame.pack(fill='both', expand=True, padx=10, pady=10)
+
+# Crea un'etichetta e uno slider per Theta
+theta_label = ttk.Label(slider_frame, text="Dx e Sx (Theta):", anchor='w')
+theta_label.grid(row=0, column=0, sticky='nsew')
+theta_slider = ttk.Scale(slider_frame, from_=-180, to=180, length=400, orient='horizontal', command=update_theta)
+theta_slider.set(theta)  # Imposta il valore iniziale
+theta_slider.grid(row=1, column=0, sticky='nsew')
+
+# Crea un'etichetta e uno slider per Phi
+phi_label = ttk.Label(slider_frame, text="Su e Giù (Phi):", anchor='w')
+phi_label.grid(row=2, column=0, sticky='nsew')
+phi_slider = ttk.Scale(slider_frame, from_=-90, to=90, length=400, orient='horizontal', command=update_phi)
+phi_slider.set(phi)  # Imposta il valore iniziale
+phi_slider.grid(row=3, column=0, sticky='nsew')
+
+# Crea un'etichetta e uno slider per FOV
+fov_label = ttk.Label(slider_frame, text="Zoom (FOV):", anchor='w')
+fov_label.grid(row=4, column=0, sticky='nsew')
+fov_slider = ttk.Scale(slider_frame, from_=5, to=90, length=400, orient='horizontal', command=update_fov)
+fov_slider.set(fov)  # Imposta il valore iniziale
+fov_slider.grid(row=5, column=0, sticky='nsew')
+
+# Imposta le opzioni di espansione della griglia
+slider_frame.grid_rowconfigure(0, weight=1)
+slider_frame.grid_rowconfigure(1, weight=1)
+slider_frame.grid_rowconfigure(2, weight=1)
+slider_frame.grid_rowconfigure(3, weight=1)
+slider_frame.grid_rowconfigure(4, weight=1)
+slider_frame.grid_rowconfigure(5, weight=1)
+slider_frame.grid_columnconfigure(0, weight=1)
 
 # Funzioni per normalizzare angoli theta (-180,180) e phi (-90, 90) e fov (5, 90)
 def normalize_theta(theta):
@@ -394,11 +396,6 @@ def on_enter(event):
     update_with_input()
 
 keyboard.on_press_key("enter", on_enter)
-
-# Estrai il frame equirettangolare
-equirectangular = extract_frame_equirectangular(video_paths.get(), frame_number)
-update_image() #Per mostrare l'immagine iniziale predefinita dal setup iniziale
-update_status_label() # Per mostrare i valori iniziali di theta, phi e fov
 
 # avvia il loop degli eventi di Tkinter per ascoltare modifiche e interazioni dell'utente
 window.mainloop()
