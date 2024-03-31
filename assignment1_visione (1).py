@@ -125,7 +125,6 @@ def update_status_label():
     status_label.config(text=status_text)
 
 
-
 # Setup iniziale
 video_path = 'video_1.MP4'
 frame_number = 170 #un frame randome prelevato dal video
@@ -150,25 +149,6 @@ window.title("Visualizzatore immagine prospettica")
 window.geometry('+3+3') 
 
 style = ttk.Style()
-
-# Definisci il tema per i pulsanti
-style.configure("TButton",
-                foreground="black",
-                background="white",
-                font=("Arial", 12, "bold"),
-                )
-
-# Definisci il tema per le etichette
-style.configure("TLabel",
-                foreground="black",
-                background="white",
-                font=("Arial", 12),
-                )
-
-# Definisci il tema per la finestra principale
-style.configure("TFrame",
-                foreground="black",
-                background="white")
 
 
 # Funzioni per aggiornare Theta, Phi e FOV quando gli slider vengono mossi
