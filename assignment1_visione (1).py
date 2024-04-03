@@ -243,7 +243,7 @@ frame_number = 170 #un frame randome prelevato dal video
 # Angoli di rotazione in gradi (theta attorno all'asse verticale (longitudine), Phi l'inclinazione su e giù (latitudine))
 theta = 0
 phi = 0
-fov = 70  # Campo visivo in gradi (field of view)
+fov = 60  # Campo visivo in gradi (field of view)
 height_out = 500  # Altezza dell'immagine di output
 aspect_ratio = 16 / 9 # Aspect Ratio per le proporzioni
 width_out = int(height_out * aspect_ratio)   # Larghezza dell'immagine di output
@@ -445,7 +445,7 @@ def initialize_and_show_selector_video_window():
 
     # Creazione e posizionamento del menu a tendina per la selezione del video
     video_paths = tk.StringVar(value="video_1.MP4")
-    video_options = ["video_1.MP4", "video_2.MP4"]
+    video_options = ["video_1.MP4", "video_2.MP4", "video_3.mp4"]
     video_dropdown = tk.OptionMenu(main_frame, video_paths, *video_options)
     video_dropdown.pack(side="left", padx=10, pady=10, expand=True)
 
